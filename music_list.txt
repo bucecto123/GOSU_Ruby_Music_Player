@@ -1,0 +1,77 @@
+6
+The Bends
+Radiohead
+1995
+4
+Album_covers/Thebendsradiohead.bmp
+5
+Fake Plastic Tree
+Albums/TheBends_Radiohead/Fake_Plastic_Trees.mp3
+High And Dry
+Albums/TheBends_Radiohead/High_and_Dry.mp3
+My Iron Lung
+Albums/TheBends_Radiohead/My_Iron_Lung.mp3
+Planet Telex
+Albums/TheBends_Radiohead/Planet_Telex.mp3
+The Bends
+Albums/TheBends_Radiohead/The_Bends.mp3
+Mr. Brightside
+Killers
+2003
+4
+Album_covers/mrbrightside_killers.bmp
+1
+Mr. Brightside
+Albums/MrBrightside_Killers/MrBrightside.mp3
+Parachutes
+Coldplay
+2000
+4
+Album_covers/coldplay_parachutes.bmp
+4
+Dont Panic
+Albums/Parachutes_Coldplay/Dont_Panic.mp3
+Sparks
+Albums/Parachutes_Coldplay/Sparks.mp3
+Trouble
+Albums/Parachutes_Coldplay/Trouble.mp3
+Yellow
+Albums/Parachutes_Coldplay/Yellow.mp3
+The New Abnormal
+The Strokes
+2020
+4
+Album_covers/the-strokes-the-new-abnormal.bmp
+7
+Not The Same Anymore
+Albums/TheNewAbnormal_TheStrokes/Not_The_Same_Anymore.mp3
+Ode To The Mets
+Albums/TheNewAbnormal_TheStrokes/Ode_To_The_Mets.mp3
+Selfless
+Albums/TheNewAbnormal_TheStrokes/Selfless.mp3
+The Adults Are Talking
+Albums/TheNewAbnormal_TheStrokes/The_Adults_Are_Talking.mp3
+Why Are Sundays So Depressing
+Albums/TheNewAbnormal_TheStrokes/Why_Are_Sundays_So_Depressing.mp3
+Brooklyn Bridge To Chorus
+Albums/TheNewAbnormal_TheStrokes/Brooklyn_Bridge_To_Chorus.mp3
+Eternal Summer
+Albums/TheNewAbnormal_TheStrokes/Eternal_Summer.mp3
+Ok Computer
+Radiohead
+1997
+4
+Album_covers/okcomputer_readioheads.bmp
+3
+No Surprises
+Albums/OkComputer_Radiohead/No_Surprises.mp3
+Paranoid Android
+Albums/OkComputer_Radiohead/Paranoid_Android.mp3
+Karma Police
+Albums/OkComputer_Radiohead/Karma_Police.mp3
+Favorite Album
+Various Artists
+nil
+nil
+Album_covers/Favourite_album_cover.jpg
+0
