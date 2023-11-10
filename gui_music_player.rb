@@ -37,6 +37,8 @@ class MusicPlayerMain < Gosu::Window
     @album_id = $select
     @album = $albums[@album_id]
     @track_id = 0
+    @volume = 0.5
+    @volume_on = true
     playTrack()
     @play_button = ArtWork.new(ROOT_DIR+'Music_player_components/play_button.png')
     @stop_button = ArtWork.new(ROOT_DIR+'Music_player_components/stop_button.png')
@@ -49,6 +51,8 @@ class MusicPlayerMain < Gosu::Window
     @loop_button_2 = ArtWork.new(ROOT_DIR+'Music_player_components/loop_button_2.png')
     @shuffle_button_1 = ArtWork.new(ROOT_DIR+'Music_player_components/shuffle_button_1.png')
     @shuffle_button_2 = ArtWork.new(ROOT_DIR+'Music_player_components/shuffle_button_2.png')
+    @volume_icon = ArtWork.new(ROOT_DIR + 'Music_player_components\volume.png')
+    @no_volume_icon = ArtWork.new(ROOT_DIR + 'Music_player_components\no_volume.png')
     @page_num = 1
     @loop = false
     @shuffle = false
@@ -61,6 +65,11 @@ class MusicPlayerMain < Gosu::Window
     @track = @album.tracks[@track_id]
     @location = ROOT_DIR + @track.location.chomp
     @song = Gosu::Song.new(@location)
+    if !@volume_on
+      @song.volume = 0
+    else
+      @song.volume = @volume
+    end
     @song.play(false)
   end
   #  Auto play the next song when the current song ends
@@ -119,21 +128,25 @@ class MusicPlayerMain < Gosu::Window
     @home_button.bmp.draw(100-40, 650, ZOrder::UI)
     @prev_song_button.bmp.draw(200-40, 650, ZOrder::UI)
     @next_song_button.bmp.draw(400-40, 650, ZOrder::UI)
+
     if @track.like
       @heart_button_2.bmp.draw(500-40, 650, ZOrder::UI)
     else
       @heart_button_1.bmp.draw(500-40, 650, ZOrder::UI)
     end
+
     if @song.paused?
       @play_button.bmp.draw(300-40, 650, ZOrder::UI)
     else
       @stop_button.bmp.draw(300-40, 650, ZOrder::UI)
     end
+
     if !@loop
       @loop_button_1.bmp.draw(100 -40, 450, ZOrder::UI)
     else
       @loop_button_2.bmp.draw(100 -40, 450, ZOrder::UI)
     end
+    
     if !@shuffle
       @shuffle_button_1.bmp.draw(500-40, 450, ZOrder::UI)
     else
@@ -142,7 +155,16 @@ class MusicPlayerMain < Gosu::Window
 
     @track_font.draw_text("<<", 120 -40, 250, ZOrder::UI, 2.5, 2.5, Gosu::Color::BLUE)
     @track_font.draw_text(">>", 520-40, 250, ZOrder::UI, 2.5, 2.5, Gosu::Color::BLUE)
+    
+    if !@volume_on || @volume < 0.1
+      @no_volume_icon.bmp.draw(110, 60, ZOrder::UI)
+    else
+      @volume_icon.bmp.draw(110, 60, ZOrder::UI)
+    end
 
+    draw_rect(200, 98, 200, 4, Gosu::Color::WHITE, ZOrder::UI )
+    draw_rect(200, 98, 200*@volume, 4, Gosu::Color::BLACK, ZOrder::UI )
+    @track_font.draw_text("+   -", 420, 82, ZOrder::UI, 2.5, 2.5, Gosu::Color::BLUE)
   end
  
   def draw_displaytrack()
@@ -199,6 +221,14 @@ class MusicPlayerMain < Gosu::Window
       elsif mouse_x > 450 && mouse_x < 550
         return 9
       end
+    elsif mouse_y > 50 && mouse_y < 150
+      if mouse_x > 100 && mouse_x < 200
+        return 10
+      elsif mouse_x > 400 && mouse_x < 450
+        return 11
+      elsif mouse_x > 400 && mouse_x < 500
+        return 12
+      end
     end
   end
 
@@ -210,13 +240,22 @@ class MusicPlayerMain < Gosu::Window
       elsif @song.paused?
         @song.play
       end
+    when Gosu::KbM
+      @volume_on = !@volume_on
+      if @volume_on
+        @song.volume = @volume
+      else
+        @song.volume = 0
+       end
     when Gosu::KbDown
-      if @song.volume > 0.05 then
-        @song.volume -= 0.1
+      if @volume > 0 && @volume_on
+        @volume -= 0.1
+        @song.volume = @volume
       end
     when Gosu::KbUp
-      if @song.volume < 0.95 then 
-        @song.volume += 0.1
+      if @volume < 1 && @volume_on
+        @volume += 0.1
+        @song.volume = @volume
       end
     when Gosu::KbRight
       if @track_id < @album.tracks.length-1
@@ -266,11 +305,11 @@ class MusicPlayerMain < Gosu::Window
         @page_num = @track_id/5 + 1
         playTrack()
       when 5
-        $albums[$select].tracks[@track_id].like = !$albums[$select].tracks[@track_id].like
-        if $albums[$select].tracks[@track_id].like
+        $albums[@album_id].tracks[@track_id].like = !$albums[@album_id].tracks[@track_id].like
+        if $albums[@album_id].tracks[@track_id].like
           $albums[-1].tracks << @album.tracks[@track_id]
         else
-          $albums[-1].tracks.delete(@album.tracks[@track_id])
+         $albums[-1].tracks.delete(@album.tracks[@track_id])
         end
       when 6
         @loop = !@loop
@@ -308,6 +347,23 @@ class MusicPlayerMain < Gosu::Window
           @album = $albums[@album_id]
         end
         playTrack()
+      when 10
+        @volume_on = !@volume_on
+        if @volume_on
+          @song.volume = @volume
+        else
+          @song.volume = 0
+        end
+      when 11
+        if @volume < 1 && @volume_on
+          @volume += 0.1
+          @song.volume = @volume
+        end
+      when 12
+        if @volume > 0 && @volume_on
+          @volume -= 0.1
+          @song.volume = @volume
+        end
       end
     end
   end
@@ -442,20 +498,28 @@ class HomeMain < Gosu::Window
         case event 
         when 1
           $select = 0 + (@page_num-1)*4
-          close
-          MusicPlayerMain.new.show if __FILE__ == $0
+          if $select < $albums.length && $albums[$select].tracks != []
+            close
+            MusicPlayerMain.new.show if __FILE__ == $0
+          end
         when 2
           $select = 1 + (@page_num-1)*4
-          close
-          MusicPlayerMain.new.show if __FILE__ == $0
+          if $select < $albums.length && $albums[$select].tracks != []
+            close
+            MusicPlayerMain.new.show if __FILE__ == $0
+          end
         when 3
           $select = 2 + (@page_num-1)*4
-          close
-          MusicPlayerMain.new.show if __FILE__ == $0
+          if $select < $albums.length && $albums[$select].tracks != []
+            close
+            MusicPlayerMain.new.show if __FILE__ == $0
+          end
         when 4
           $select = 3 + (@page_num-1)*4
-          close
-          MusicPlayerMain.new.show if __FILE__ == $0
+          if $select < $albums.length && $albums[$select].tracks != []
+            close
+            MusicPlayerMain.new.show if __FILE__ == $0
+          end
         when 5
           if @page_num > 1
             @page_num -= 1
