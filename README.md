@@ -8,4 +8,5 @@ The music player has the following functions:
 - You can like a song to add it to the favourite tracks playlist (the favourite tracks album won't appear until at least one track is liked), you can also unlike the song to remove it from the favourite tracks playlist.
 - Loop and Shuffle.
 Everything works fine except the like button is kinda buggy.
-Demo: 
+Demo: https://youtu.be/mOthukgRXAA
+Enjoy! :)
